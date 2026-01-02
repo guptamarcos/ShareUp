@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShareUp</title>
+    <link rel="stylesheet" href="/css/navbar.css"/>
+    <link rel="stylesheet" href="/css/new.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar.ejs") %>
+    <%- include("../partials/flash.ejs") %>
+    <main class="contentBox">
+    <h1 class="heading">Edit The Post</h1>
+    <form method="POST" action="/api/posts/<%=currPost.id%>?_method=PATCH">
+      <input type="text" name="title" value="<%=currPost.title %>" required />
+      <input type="text" name="imageUrl" value="<%=currPost.imageUrl%>" required />
+      <textarea name="content" required><%=currPost.content%></textarea>
+      <button>Submit</button>
+    </form>
+    <a href="/api/posts/<%=currPost._id%>/" id="backBtn">Back</a>
+  </main>
+  </body>
+</html>

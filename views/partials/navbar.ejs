@@ -1,0 +1,16 @@
+<header>
+  <nav>
+    <h1 id="logo">ShareUp</h1>
+    <% if(!currUser) {%>
+    <ul class="navLinks">
+      <li><a href="/api/users/SignUp">SignUp</a></li>
+      <li><a href="/api/users/LogIn">LogIn</a></li>
+    </ul>
+    <%}else{%>
+    <ul class="navLinks">
+      <li><a href="/api/users/Logout">Logout</a></li>
+      <li><a href="/api/users/<%=currUser._id%>">DeleteUser</a></li>
+    </ul>
+    <%}%>
+  </nav>
+</header>

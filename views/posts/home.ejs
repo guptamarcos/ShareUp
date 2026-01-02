@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShareUp</title>
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar.ejs") %>
+    <%- include("../partials/flash.ejs") %>
+    <main id="allPosts">
+      <% for(let post of allPost) {%>
+      <div class="post">
+        <img src="<%= post.imageUrl %>" class="postImage" >
+        <p class="postTitle"><%= post.title %></p>
+        <p class="links">
+          <span class="postUsername">
+            <b>Created By: </b>
+            <i>@<%=post.username%></i>
+          </span>
+          <%if(currUser){%>
+          <a href="/api/posts/<%=post._id%>">See in details</a></p>
+          <%}%>
+      </div>
+      <%}%>
+    </main>
+    <%if(currUser){%>
+    <a href="/api/posts/new" id="newPostLink">Create new Post</a>
+    <%}%>
+  </body>
+</html>

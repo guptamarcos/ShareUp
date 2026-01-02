@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShareUp</title>
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/show.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar.ejs") %>
+    <%- include("../partials/flash.ejs") %>
+    <main class="postInfo">
+      <h1 class="postTitle"> <i><%= currPost.title %></i> </h1>
+      <img src="<%=currPost.imageUrl %>" alt="postImage" class="postImage">
+      <h4 class="postUsername">
+        <span><b>Created By: </b><i>@<%=currPost.username%></i></span>
+        <span><%= currPost.createdAt.toLocaleString() %></span>
+      </h4>
+      <p class="postContent"><%= currPost.content %></p>
+      <div class="postLinks">
+        <a href="/api/posts/<%= currPost._id %>/edit" class="editBtn">Edit the Post</a>
+        <form method="POST" action="/api/posts/<%= currPost._id %>?_method=DELETE">
+          <button class="deleteBtn">Delete the Post</button>
+        </form>
+      </div>
+      <h2 class="commentHeader">Comments</h2>
+      <form class="commentForm" method="POST" action="/api/posts/<%=currPost._id %>/comment">
+        <textarea name="content"></textarea>
+        <button>Add Comment</button>
+      </form>
+      <div class="allComments">
+        <%for(let comment of currPost.allComments){%>
+          <div class="comment">
+            <div class="commentHeaderInBox">
+              <b><i>@username</i></b>
+              <form method="POST" action="/api/posts/<%= currPost._id %>/comment/<%= comment._id %>?_method=DELETE">
+                <button class="deleteBtnInComment">Delete comment</button>
+              </form>
+            </div>
+            <p class="commentContent"><%=comment.content%></p>
+          </div>
+        <%}%>
+      </div>
+    </main>
+    <a href="/api/posts" id="backBtn">Back</a>
+  </body>
+</html>

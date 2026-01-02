@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShareUp</title>
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/new.css" />
+  </head>
+  <body>
+    <%- include("../partials/navbar.ejs") %>
+    <%- include("../partials/flash.ejs") %>
+    <main class="contentBox">
+      <h1 class="heading">Create New Post</h1>
+      <form method="POST" action="/api/posts">
+        <input type="text" name="title" placeholder="Enter some catchy title" required />
+        <input type="text" name="imageUrl" placeholder="Give Image Link" required />
+        <textarea placeholder="Enter some content" name="content" required></textarea>
+        <button>Submit</button>
+      </form>
+      <a href="/api/posts" id="backBtn">Back</a>
+    </main>
+  </body>
+</html>
