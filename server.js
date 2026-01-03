@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 // IMPORTING THE APP
 const app = require("./app.js");
 

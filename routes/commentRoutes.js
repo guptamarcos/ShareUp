@@ -29,7 +29,6 @@ router.delete(
   isAuthenticated,
   checkValidIdPost,
   checkValidIdComment,
-  checkIsOwner,
   wrapAsync(async (req, res) => {
     const { commentId, id } = req.params;
     await Comment.deleteOne({_id:commentId});

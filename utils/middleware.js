@@ -58,7 +58,7 @@ const checkValidIdComment = async (req,res,next) =>{
 
 const checkIsOwner = async(req,res,next)=>{
   const { commentId } = req.params;
-  const comment = await comment.findById(commentId);
+  const comment = await Comment.findById(commentId);
   if(!req.user._id.equals(comment.isOwner)){
     throw new ExpressError(404,"You can't delete the comment!!!");
   }
