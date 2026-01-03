@@ -18,12 +18,14 @@
         <span><%= currPost.createdAt.toLocaleString() %></span>
       </h4>
       <p class="postContent"><%= currPost.content %></p>
+      <%if(currPost.isOwner.equals(currUser._id)){%>
       <div class="postLinks">
         <a href="/api/posts/<%= currPost._id %>/edit" class="editBtn">Edit the Post</a>
         <form method="POST" action="/api/posts/<%= currPost._id %>?_method=DELETE">
           <button class="deleteBtn">Delete the Post</button>
         </form>
       </div>
+      <%}%>
       <h2 class="commentHeader">Comments</h2>
       <form class="commentForm" method="POST" action="/api/posts/<%=currPost._id %>/comment">
         <textarea name="content"></textarea>
@@ -33,10 +35,12 @@
         <%for(let comment of currPost.allComments){%>
           <div class="comment">
             <div class="commentHeaderInBox">
-              <b><i>@username</i></b>
+              <b><i>@<%= comment.createdBy %></i></b>
+              <%if(currPost.isOwner.equals(currUser._id)){%>
               <form method="POST" action="/api/posts/<%= currPost._id %>/comment/<%= comment._id %>?_method=DELETE">
                 <button class="deleteBtnInComment">Delete comment</button>
               </form>
+              <%}%>
             </div>
             <p class="commentContent"><%=comment.content%></p>
           </div>

@@ -7,17 +7,17 @@ const postSchema = new mongoose.Schema({
     },
     title: {
         type: String,  
-        required: true,
-        minlength: 6,
+        required: [true,"Title is required!!"],
+        minlength: [5, "Title must contain at least 5 letters"],
     },
     content: {
         type: String,
-        required: true,
-        minlength: 6,
+        required: [true,"Content is required!!"],
+        minlength: [10,"content must contain at least 10 letters"],
     },
     imageUrl:{
         type: String,
-        required: true,
+        required: [true,"ImageUrl is required!!"],
     },
     isOwner:{
         type: mongoose.Schema.Types.ObjectId,

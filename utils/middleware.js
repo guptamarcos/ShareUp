@@ -56,5 +56,13 @@ const checkValidIdComment = async (req,res,next) =>{
 }
 
 
+const checkIsOwner = async(req,res,next)=>{
+  const { commentId } = req.params;
+  const comment = await comment.findById(commentId);
+  if(!req.user._id.equals(comment.isOwner)){
+    throw new ExpressError(404,"You can't delete the comment!!!");
+  }
+  next();
+}
 
-module.exports = {isAuthenticated,checkValidIdPost,checkValidIdUser,checkValidIdComment};
+module.exports = {isAuthenticated,checkValidIdPost,checkValidIdUser,checkValidIdComment,checkIsOwner};

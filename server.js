@@ -98,7 +98,8 @@ app.use((req, res) => {
 
 // ERROR HANDLING MIDDLEWARE
 app.use((err,req,res,next)=>{
-  let { status = 500, message="Something went Wrong!!!" } = err;
+  const { status = 500, message="Something went Wrong!!!" } = err;
   req.flash("error", message);
-  res.redirect("/api/posts");
+  const backUrl = req.get("referer") || "/api/posts";
+  res.redirect(backUrl);
 });

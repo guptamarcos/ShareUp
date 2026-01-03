@@ -3,7 +3,7 @@ const router = express.Router({ mergeParams: true });
 const Comment = require("../models/commentSchema.js");
 const Post = require("../models/postSchema.js");
 const wrapAsync = require("../utils/wrapAsync.js");
-const { isAuthenticated, checkValidIdPost , checkValidIdComment} = require("../utils/middleware.js");
+const { isAuthenticated, checkValidIdPost , checkValidIdComment, checkIsOwner} = require("../utils/middleware.js");
 
 router.post(
   "/",
@@ -12,6 +12,7 @@ router.post(
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const comment = new Comment({
+      createdBy: req.user.username,
       isOwner: req.user._id,
       content: req.body.content,
     });
@@ -28,6 +29,7 @@ router.delete(
   isAuthenticated,
   checkValidIdPost,
   checkValidIdComment,
+  checkIsOwner,
   wrapAsync(async (req, res) => {
     const { commentId, id } = req.params;
     await Comment.deleteOne({_id:commentId});
