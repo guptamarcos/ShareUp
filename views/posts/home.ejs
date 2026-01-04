@@ -18,7 +18,7 @@
         <p class="links">
           <span class="postUsername">
             <b>Created By: </b>
-            <i>@<%=post.username%></i>
+            <i>@<%=post.owner.username%></i>
           </span>
           <%if(currUser){%>
           <a href="/api/posts/<%=post._id%>">See in details</a></p>

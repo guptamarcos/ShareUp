@@ -4,7 +4,7 @@ const User = require("../models/userSchema.js");
 // INDEX ROUTE
 // SHOW UP ALL THE POSTS OF THE APP
 module.exports.indexRoute = async (req, res) => {
-  const allPost = await Post.find({});
+  const allPost = await Post.find({}).populate("owner");
   res.render("posts/home.ejs", { allPost });
 };
 
@@ -18,11 +18,10 @@ module.exports.newRoute = (req, res) => {
 // ADD THE NEW POST
 module.exports.postRoute = async (req, res) => {
   const newPost = new Post({
-    username: req.user.username,
     title: req.body.title,
     content: req.body.content,
     imageUrl: req.body.imageUrl,
-    isOwner: req.user._id,
+    owner: req.user._id,
   });
   await newPost.save();
   const currUser = await User.findById(req.user._id);
@@ -35,7 +34,16 @@ module.exports.postRoute = async (req, res) => {
 // SEE THE DETAILS OF THE POST
 module.exports.showRoute = async (req, res) => {
   const { id } = req.params;
-  const currPost = await Post.findOne({ _id: id }).populate("allComments");
+  const currPost = await Post.findById(id)
+    .populate("owner")
+    .populate({
+      path: "allComments",
+      populate: {
+        path: "owner",
+        model: "User",
+      },
+    });
+  console.log("content of currPost", " ", currPost);
   res.render("posts/show.ejs", { currPost });
 };
 
@@ -61,12 +69,10 @@ module.exports.updatedRoute = async (req, res) => {
 // DELETE ROUTE
 // DELETE THE SPECIFIC POST
 module.exports.deleteRoute = async (req, res) => {
-    const { id } = req.params;
-    const currPost = await Post.findByIdAndDelete({ _id: id });
-    const postOwner = await User.findById(currPost.isOwner);
-    postOwner.allPost.pull({ _id: id });
-    await postOwner.save();
-    res.redirect("/api/posts");
-}
-
-
+  const { id } = req.params;
+  const currPost = await Post.findByIdAndDelete({ _id: id });
+  const postOwner = await User.findById(currPost.owner);
+  postOwner.allPost.pull({ _id: id });
+  await postOwner.save();
+  res.redirect("/api/posts");
+};

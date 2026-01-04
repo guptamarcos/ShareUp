@@ -12,8 +12,7 @@ router.post(
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const comment = new Comment({
-      createdBy: req.user.username,
-      isOwner: req.user._id,
+      owner: req.user._id,
       content: req.body.content,
     });
     await comment.save();

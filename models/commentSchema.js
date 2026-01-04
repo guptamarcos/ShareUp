@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema({
-    createdBy: {
-        type: String,
-        required: true,
-    },
-    isOwner:{
+    owner:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },

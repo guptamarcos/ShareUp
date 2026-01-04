@@ -14,11 +14,11 @@
       <h1 class="postTitle"> <i><%= currPost.title %></i> </h1>
       <img src="<%=currPost.imageUrl %>" alt="postImage" class="postImage">
       <h4 class="postUsername">
-        <span><b>Created By: </b><i>@<%=currPost.username%></i></span>
+        <span><b>Created By: </b><i>@<%=currPost.owner.username%></i></span>
         <span><%= currPost.createdAt.toLocaleString() %></span>
       </h4>
       <p class="postContent"><%= currPost.content %></p>
-      <%if(currPost.isOwner.equals(currUser._id)){%>
+      <%if(currPost.owner.equals(currUser._id)){%>
       <div class="postLinks">
         <a href="/api/posts/<%= currPost._id %>/edit" class="editBtn">Edit the Post</a>
         <form method="POST" action="/api/posts/<%= currPost._id %>?_method=DELETE">
@@ -35,8 +35,8 @@
         <%for(let comment of currPost.allComments){%>
           <div class="comment">
             <div class="commentHeaderInBox">
-              <b><i>@<%= comment.createdBy %></i></b>
-              <%if(currPost.isOwner.equals(currUser._id)){%>
+              <b><i>@<%= comment.owner.username %></i></b>
+              <%if(currPost.owner.equals(currUser._id)){%>
               <form method="POST" action="/api/posts/<%= currPost._id %>/comment/<%= comment._id %>?_method=DELETE">
                 <button class="deleteBtnInComment">Delete comment</button>
               </form>

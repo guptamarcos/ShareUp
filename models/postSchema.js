@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-    },
     title: {
         type: String,  
         required: [true,"Title is required!!"],
@@ -19,7 +15,7 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: [true,"ImageUrl is required!!"],
     },
-    isOwner:{
+    owner:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
