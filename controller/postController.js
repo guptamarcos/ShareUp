@@ -20,12 +20,9 @@ module.exports.newRoute = (req, res) => {
 // ADD THE NEW POST
 module.exports.postRoute = async (req, res) => {
   const {error,value} = postValidate.validate(req.body);
-  console.log(error);
   if(error){
-    console.log("hello")
     throw new ExpressError(400,error.details[0].message);
   }
-  console.log("uploaded file data is " , req.file);
   const newPost = new Post({
     title: value.title,
     content: value.content,

@@ -3,7 +3,7 @@ const router = express.Router();
 const { isAuthenticated, checkValidIdPost } = require("../utils/middleware.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const routes = require("../controller/postController.js");
-const { upload } = require("../app.js");
+const upload = require("../utils/multer.js");
 
 router
   .route("/")

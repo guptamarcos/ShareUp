@@ -1,5 +1,5 @@
 // IMPORTING THE APP
-const { app } = require("./app.js");
+const app = require("./app.js");
 
 // ROUTING OBJECTS
 const postRoutes = require("./routes/postRoutes.js");

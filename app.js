@@ -55,19 +55,6 @@ const sessionOptions = {
   },
 };
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/')
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() ;
-    cb(null, uniqueSuffix + '-' + file.originalname )
-  }
-})
-
-const upload = multer({ storage })
-
-
 // UTILITY MIDDLEWARES
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -88,4 +75,4 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
-module.exports = {app,upload};
+module.exports = app;;
