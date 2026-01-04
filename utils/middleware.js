@@ -9,7 +9,7 @@ const isAuthenticated = (req, res, next) => {
     req.flash("error", "You must be logged In!!");
     return res.redirect("/api/posts");
   } else {
-    next();
+    return next();
   }
 };
 
@@ -29,7 +29,7 @@ const checkValidIdPost = async (req, res, next) => {
     if (!currPost) {
       throw new ExpressError(404, "Post not found!!");
     }
-    next();
+    return next();
   }
 };
 
@@ -42,7 +42,7 @@ const checkValidIdUser = async (req, res, next) => {
     if (!currUser) {
       throw new ExpressError(404, "User not exist!!");
     }
-    next();
+    return next();
   }
 };
 
@@ -54,7 +54,7 @@ const checkValidIdComment = async (req, res, next) => {
     if (!currComment) {
       throw new ExpressError(404, "Comment not exist!!");
     }
-    next();
+    return next();
   }
 };
 
@@ -64,7 +64,7 @@ const checkIsOwner = async (req, res, next) => {
   if (!req.user._id.equals(comment.isOwner)) {
     throw new ExpressError(404, "You can't delete the comment!!!");
   }
-  next();
+  return next();
 };
 
 module.exports = {
@@ -73,4 +73,4 @@ module.exports = {
   checkValidIdUser,
   checkValidIdComment,
   checkIsOwner,
-};  is this correct ?
+}; 

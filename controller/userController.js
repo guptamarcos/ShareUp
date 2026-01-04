@@ -12,7 +12,6 @@ module.exports.postSignUpData = async (req, res, next) => {
   if(error){
     throw new ExpressError(400,error.details[0].message);
   }
-
   const { username, email, password } = value;
   const newUser = new User({ username, email });
   const registeredUser = await User.register(newUser, password);

@@ -12,7 +12,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const { MongoStore } = require("connect-mongo");
-
+const multer = require("multer");
 
 // IMPORTING CONNECT DB FOR MAKE THE CONNECTION WITH THE DATABASE
 const connectDb = require("./db/connect.js");
@@ -55,6 +55,19 @@ const sessionOptions = {
   },
 };
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() ;
+    cb(null, uniqueSuffix + '-' + file.originalname )
+  }
+})
+
+const upload = multer({ storage })
+
+
 // UTILITY MIDDLEWARES
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -67,9 +80,12 @@ app.use(session(sessionOptions));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-module.exports = app;
+
+module.exports = {app,upload};

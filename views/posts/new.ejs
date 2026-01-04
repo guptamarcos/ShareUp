@@ -12,7 +12,7 @@
     <%- include("../partials/flash.ejs") %>
     <main class="contentBox">
       <h1 class="heading">Create New Post</h1>
-      <form method="POST" action="/api/posts">
+      <form method="POST" action="/api/posts" enctype="multipart/form-data">
         <input type="text" name="title" placeholder="Enter some catchy title" required />
         <input type="file" name="imageUrl" placeholder="Give Image Link" required />
         <textarea placeholder="Enter some content" name="content" required></textarea>
