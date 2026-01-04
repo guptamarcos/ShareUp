@@ -1,12 +1,19 @@
 const Post = require("../models/postSchema.js");
 const User = require("../models/userSchema.js");
+const ExpressError = require("../utils/ExpressError.js");
+const { signupValidate} = require("../utils/schemaValidator.js");
 
 module.exports.getSignUpForm = (req, res) => {
   res.render("users/signup.ejs");
 };
 
 module.exports.postSignUpData = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const {error,value} = signupValidate.validate(req.body);
+  if(error){
+    throw new ExpressError(400,error.details[0].message);
+  }
+
+  const { username, email, password } = value;
   const newUser = new User({ username, email });
   const registeredUser = await User.register(newUser, password);
   req.login(registeredUser, (err) => {

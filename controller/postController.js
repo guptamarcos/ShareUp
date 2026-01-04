@@ -1,5 +1,8 @@
 const Post = require("../models/postSchema.js");
 const User = require("../models/userSchema.js");
+const { postValidate} = require("../utils/schemaValidator.js");
+const ExpressError = require("../utils/ExpressError.js");
+
 
 // INDEX ROUTE
 // SHOW UP ALL THE POSTS OF THE APP
@@ -17,12 +20,17 @@ module.exports.newRoute = (req, res) => {
 // ADD ROUTE
 // ADD THE NEW POST
 module.exports.postRoute = async (req, res) => {
+  const {error,value} = postValidate.validate(req.body);
+  if(error){
+    throw new ExpressError(400,error.details[0].message);
+  }
   const newPost = new Post({
-    title: req.body.title,
-    content: req.body.content,
-    imageUrl: req.body.imageUrl,
+    title: value.title,
+    content: value.content,
+    imageUrl: value.imageUrl,
     owner: req.user._id,
   });
+
   await newPost.save();
   const currUser = await User.findById(req.user._id);
   currUser.allPost.push(newPost._id);
@@ -58,10 +66,13 @@ module.exports.updateRoute = async (req, res) => {
 // POST THE UPDATED DATA
 module.exports.updatedRoute = async (req, res) => {
   const { id } = req.params;
-  const { title, content, imageUrl } = req.body;
+  const {error,value} = postValidate.validate(req.body);
+  if(error){
+    throw new ExpressError(400,error.details[0].message);
+  }
   await Post.updateOne(
     { _id: id },
-    { $set: { title: title, content: content, imageUrl: imageUrl } }
+    { $set: { title:  value.title, content: value.content, imageUrl: value.imageUrl } }
   );
   res.redirect("/api/posts");
 };
