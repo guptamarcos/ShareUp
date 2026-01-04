@@ -49,7 +49,7 @@ const checkValidIdUser = async (req, res, next) => {
 // CHECK VALID COMMENT ID
 const checkValidIdComment = async (req, res, next) => {
   const { commentId } = req.params;
-  if (checkValidObjectId(id)) {
+  if (checkValidObjectId(commentId)) {
     const currComment = await Comment.findById(commentId);
     if (!currComment) {
       throw new ExpressError(404, "Comment not exist!!");

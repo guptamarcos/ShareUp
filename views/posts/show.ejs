@@ -36,7 +36,7 @@
           <div class="comment">
             <div class="commentHeaderInBox">
               <b><i>@<%= comment.owner.username %></i></b>
-              <%if(currPost.owner.equals(currUser._id)){%>
+              <%if(comment.owner._id.equals(currUser._id)){%>
               <form method="POST" action="/api/posts/<%= currPost._id %>/comment/<%= comment._id %>?_method=DELETE">
                 <button class="deleteBtnInComment">Delete comment</button>
               </form>
